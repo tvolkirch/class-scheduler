@@ -1,0 +1,205 @@
+<!--
+    Test problem
+    
+    Create a class scheduler web page with client-
+    side validation and a confirmation page.
+    
+    I made this presentable down to a 400 pixel 
+    screen width. I also added web accessibility.
+    
+     Started:  4:00pm 4/12/2017
+    Finished: 11:30pm 4/13/2017
+    
+    Estimated man hours for UI: 2
+    Estimated man hours for functionality: 11
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Class Schedule</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="jquery.min.js"></script>
+</head>
+<body>
+
+<header id="head">
+   <h4>Class Schedule</h4>
+</header>
+    
+<main id="main">
+
+    <form id="mainForm" method="POST">
+        <fieldset id="personalFields" class="fields">
+            <h4 class="fieldsTitle">Personal Information</h4>
+            <div class="flexrow">
+                <div class="flexcol1">
+                    <span>Full Name: * </span>
+                </div>
+                <div class="flexcol2">
+                    <input type="text" name="name" id="name" size="35" placeholder="Please enter first and last name" />
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcol1">
+                    <span>Email: * </span>
+                </div>
+                <div class="flexcol2">
+                    <input type="text" name="email" id="email" size="45" placeholder="Please enter preferred email address" />
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcol1"> </div>
+                <div class="flexcol2">
+                    <span class="studyTitle">Birthday *</span>
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcol1">
+                    <span">Month: </span>
+                </div>
+                <div class="flexcol2">
+                    <select aria-label="birthday month" id="bdayMonth">
+                    </select>
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcol1">
+                    <span>Day: </span>
+                </div>
+                <div class="flexcol2">
+                    <select aria-label="birthday day" id="bdayDay">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                        <option>31</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcol1">
+                    <span>Year: </span>
+                </div>
+                <div class="flexcol2">
+                    <select aria-label="birthday year digit, thousands place" id="bdayYear1">
+                        <option value="2000">2</option>
+                        <option value="1000">1</option>
+                    </select>
+                    <select aria-label="birthday year digit, hundreds place" id="bdayYear2">
+                        <option value="0">0</option>
+                        <option value="900">9</option>
+                        <option value="800">8</option>
+                    </select>
+                    <select aria-label="birthday year digit, tens place" id="bdayYear3">
+                        <option value="0">0</option>
+                        <option value="90">9</option>
+                        <option value="80">8</option>
+                        <option value="70">7</option>
+                        <option value="60">6</option>
+                        <option value="50">5</option>
+                        <option value="40">4</option>
+                        <option value="30">3</option>
+                        <option value="20">2</option>
+                        <option value="10">1</option>
+                    </select>
+                    <select aria-label="birthday year digit, ones place" id="bdayYear4">
+                        <option value="0">0</option>
+                        <option value="9">9</option>
+                        <option value="8">8</option>
+                        <option value="7">7</option>
+                        <option value="6">6</option>
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="errorMess" id="errorPersonal" tabindex="0"></div>
+            <div class="flexrow">
+                <div class="flexcol1"> </div>
+                <div class="flexcol2">
+                    <span class="label">* required field</span>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset id="scheduleFields" class="fields">
+            <h4 class="fieldsTitle">Class Schedules</h4>            
+            <div class="errorMess" id="errorSchedule" tabindex="0"></div>
+            <div class="flexrow footnote">
+                <div class="flexcol1"> </div>
+                <div class="flexcol2">
+                    <span class="label">NOTE 1: Overlapping schedules are not allowed.</span>
+                </div>
+            </div>
+            <div class="flexrow">
+                <div class="flexcol1"> </div>
+                <div class="flexcol2">
+                    <span class="label">NOTE 2: At least one class must be selected.</span>
+                </div>
+            </div>
+        </fieldset>
+        <div id="generalErrorMess"></div>
+        <div class="formButton">
+            <button class="mainButton" id="mainSubmit">Submit Class Schedule</button>
+        </div>
+    </form>
+    
+    <div id="confirmation">
+        <h4>JSON Request</h4>
+        <div id="jsonRequest"></div>
+        <h4>Personal Information</h4>
+        <div id="formattedPersonal"></div>
+        <h4>Schedule Information</h4>
+        <div id="formattedSchedule"></div>
+        <div class="formButton">
+            <button class="mainButton" id="confirmSubmit">Confirm Class Schedule</button>
+            <button class="mainButton" id="cancelSubmit">Cancel</button>
+        </div>
+    </div>
+
+    <div id="submitMess">Class schedule has been submitted</div>
+
+    <div class="footerPadding"> </div>
+</main>
+    
+<footer id="foot">
+&copy; 2017 Terry Volkirch
+</footer>
+
+<script src="stubbed-data.js"></script>
+<script src="class-schedule.js"></script>
+
+</body>
+</html>
