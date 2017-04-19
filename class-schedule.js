@@ -1,5 +1,10 @@
 /*
- * Test problem
+ * Programming test problem
+ *
+ * Create a web page with a form to enter personal information and 
+ * select a class schedule. When submitting the form, display a 
+ * confirmation page that allows the user to either continue the 
+ * form submittal or cancel and go back to the form to make changes.
  */
 
 window.ALPHAMOD = window.ALPHAMOD || {};
@@ -161,18 +166,14 @@ window.ALPHAMOD = window.ALPHAMOD || {};
     {
         $("#errorPersonal").hide().text("");
         $("#errorSchedule").hide().text("");
-        $("#generalErrorMess").hide().text("");    }
+        $("#generalErrorMess").hide().text("");
+    }
     
     function setBirthday()
     {
-        var y1000 = parseInt( $("#bdayYear1").val(), 10);
-        var y100 = parseInt( $("#bdayYear2").val(), 10);
-        var y10 = parseInt( $("#bdayYear3").val(), 10);
-        var y1 = parseInt( $("#bdayYear4").val(), 10);
-        
-        aMod.bYear = y1000 + y100 + y10 + y1;
+        aMod.bYear = parseInt( $("#yearDisplay").text() , 10);;
         aMod.bMonth = parseInt( $("#bdayMonth").val(), 10);
-        aMod.bDay = parseInt( $("#bdayDay").val() , 10);
+        aMod.bDay = parseInt( $("#dayDisplay").text() , 10);
     }
     
     function setClassSchedules()
@@ -326,17 +327,18 @@ window.ALPHAMOD = window.ALPHAMOD || {};
             errors.push("<p>illegal day for the month</p>");
         }
         
-        if (birthMonth >= currentMonth && birthDay > currentDay)
+        if (birthYear > (currentYear - 16) ||
+           (birthYear === (currentYear - 16) && birthMonth > currentMonth) ||
+           (birthYear === (currentYear - 16) && birthMonth === currentMonth && birthDay > currentDay) )
         {
-            if (birthYear >= (currentYear - 16))
-            {
-                errors.push("<p>must be at least 16-years-old to apply</p>");
-            }
-            
-            if (birthYear >= currentYear)
-            {
-                errors.push("<p>birthday can't be in the future</p>");
-            }
+            errors.push("<p>must be at least 16-years-old to apply</p>");
+        }
+        
+        if (birthYear > currentYear ||
+           (birthYear === currentYear && birthMonth > currentMonth) ||
+           (birthYear === currentYear && birthMonth === currentMonth && birthDay > currentDay) )
+        {
+            errors.push("<p>birthday can't be in the future</p>");
         }
         
         return errors;
@@ -465,6 +467,70 @@ window.ALPHAMOD = window.ALPHAMOD || {};
         return isValid;
     }
     
+    aMod.handlePrevDay = function()
+    {
+        var $bdayDay = $("#bdayDay");
+        var day = parseInt($bdayDay.val() , 10) - 1;
+        
+        if (day < 1)
+        {
+            day = 1;
+        }
+        $bdayDay.val(day);
+        $("#dayDisplay").text(day);
+    }    
+    
+    aMod.handleNextDay = function()
+    {
+        var $bdayDay = $("#bdayDay");
+        var day = parseInt($bdayDay.val() , 10) + 1;
+        
+        if (day > 31)
+        {
+            day = 31;
+        }
+        $bdayDay.val(day);
+        $("#dayDisplay").text(day);
+    }    
+    
+    aMod.handleBdayDaySlider = function()
+    {
+        $("#dayDisplay").text( $("#bdayDay").val() );
+    }    
+    
+    aMod.handlePrevYear = function()
+    {
+        var $bdayYear = $("#bdayYear");
+        var minYear = parseInt($bdayYear.attr("min"), 10);
+        var year = parseInt($bdayYear.val() , 10) - 1;
+        
+        if (year < minYear)
+        {
+            year = minYear;
+        }
+        $bdayYear.val(year);
+        $("#yearDisplay").text(year);
+    }    
+    
+    aMod.handleNextYear = function()
+    {
+        var $bdayYear = $("#bdayYear");
+        var maxYear = parseInt($bdayYear.attr("max"), 10);
+        var year = parseInt($bdayYear.val() , 10) + 1;
+        
+        if (year > maxYear)
+        {
+            year = maxYear;
+        }
+        $bdayYear.val(year);
+        $("#yearDisplay").text(year);
+    }    
+    
+    aMod.handleBdayYearSlider = function()
+    {
+        $("#yearDisplay").text( $("#bdayYear").val() );
+    }    
+    
     // allow confirmation page to be submitted
     // TODO? Make functional with a form action and 
     //       target web page - show message for now
@@ -504,6 +570,14 @@ window.ALPHAMOD = window.ALPHAMOD || {};
 
     aMod.setMonthSelector($monthSelector);
     aMod.displaySchedules($scheduleSelector);
+    
+    $("#prevDay").click(aMod.handlePrevDay);
+    $("#nextDay").click(aMod.handleNextDay);
+    $("#bdayDay").change(aMod.handleBdayDaySlider);
+    
+    $("#prevYear").click(aMod.handlePrevYear);
+    $("#nextYear").click(aMod.handleNextYear);    
+    $("#bdayYear").change(aMod.handleBdayYearSlider);
     
     $("#mainSubmit").click(aMod.handleInitialSubmittal);
 

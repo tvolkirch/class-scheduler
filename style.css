@@ -14,6 +14,11 @@ body
 	padding: 0;
 }
 
+select
+{
+    margin-bottom: 1em;
+}
+
 /* Unique styles */
 
 #head 
@@ -40,6 +45,18 @@ body
 	padding: 15px;
 	background-color: white;
 	color: #333;
+}
+
+#bdayDay, #bdayYear
+{
+    width: 75%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#prevDay, #nextDay, #prevYear, #nextYear
+{
+    cursor: pointer;
 }
 
 #confirmation
@@ -129,6 +146,32 @@ body
     margin: auto auto auto 1em;
 }
 
+.dateDisplay
+{
+    padding: 0.5em 0.75em;
+    margin-right: 1em;
+    border: 0.1em solid #ccc;
+    border-radius: 0.5em;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sliderDigit
+{
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0.5em 0.75em;
+    margin-right: 0.5em;
+}
+
+.sliderDigit:hover
+{
+    cursor: pointer;
+}
+
 .mainButton
 {
     padding: 0.5em;
@@ -168,4 +211,9 @@ body
 .footerPadding
 {
     height: 3em;
+}
+
+.bold
+{
+    font-weight: bold;
 }
