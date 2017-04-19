@@ -312,6 +312,7 @@ window.ALPHAMOD = window.ALPHAMOD || {};
         var currentYear = aDate.getFullYear();
         var currentMonth = aDate.getMonth();
         var currentDay = aDate.getDate();
+        var currentSeconds, birthSeconds, year16Seconds;
         
         birthYear = aMod.bYear;
         birthMonth = aMod.bMonth;
@@ -325,18 +326,19 @@ window.ALPHAMOD = window.ALPHAMOD || {};
         if (birthDay > maxDays[birthMonth])
         {
             errors.push("<p>illegal day for the month</p>");
+            return errors;
         }
         
-        if (birthYear > (currentYear - 16) ||
-           (birthYear === (currentYear - 16) && birthMonth > currentMonth) ||
-           (birthYear === (currentYear - 16) && birthMonth === currentMonth && birthDay > currentDay) )
+        currentSeconds = new Date(currentYear, currentMonth, currentDay, 0, 0, 0, 0).getTime();
+        year16Seconds = new Date((currentYear - 16), currentMonth, currentDay, 0, 0, 0, 0).getTime();
+        birthSeconds = new Date(birthYear, birthMonth, birthDay, 0, 0, 0, 0, 0).getTime();
+        
+        if (birthSeconds > year16Seconds)
         {
             errors.push("<p>must be at least 16-years-old to apply</p>");
         }
         
-        if (birthYear > currentYear ||
-           (birthYear === currentYear && birthMonth > currentMonth) ||
-           (birthYear === currentYear && birthMonth === currentMonth && birthDay > currentDay) )
+        if (birthSeconds > currentSeconds)
         {
             errors.push("<p>birthday can't be in the future</p>");
         }
